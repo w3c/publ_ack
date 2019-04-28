@@ -1,0 +1,27 @@
+{
+  "name": "publ_acks",
+  "version": "1.0.0",
+  "description": "Script to generate the acknowledgement section of W3C WG/IG documents",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "8 || 10",
+    "npm": "5 || 6"
+  },
+  "keywords": [
+    "tool",
+    "publications"
+  ],
+  "author": {
+    "name": "Ivan Herman",
+    "email": "ivan@w3.org",
+    "url": "https://www.w3.org/People/Ivan/"
+  },
+  "license": "W3C-20150513",
+  "dependencies": {
+    "node-fetch": "^2.4.1",
+    "underscore": "^1.9.1"
+  }
+}
