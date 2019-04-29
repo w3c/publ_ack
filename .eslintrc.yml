@@ -25,6 +25,7 @@ rules: # see https://eslint.org/docs/rules/
             on: colon
     comma-dangle: [error, never]
     arrow-parens: [error, always]
+    no-underscore-dangle: off
     no-plusplus:
         - error
         - allowForLoopAfterthoughts: true
