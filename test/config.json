@@ -1,0 +1,19 @@
+{
+    "documents" : {
+        "test" : {
+            "id": "100074",
+            "explicit_list": "http://localhost:8001/LocalData/github/publ_ack/test/test_acks.json",
+            "html_pattern": "http://localhost:8001/LocalData/github/publ_ack/test/test_pattern.html"
+        },
+        "wpub-local" : {
+            "id": "100074",
+            "explicit_list": "http://localhost:8001/LocalData/github/wpub/common/html/ack-script/separate_acks.json",
+            "html_pattern": "http://localhost:8001/LocalData/github/wpub/common/html/ack-script/ack_pattern.html"
+        },
+        "wpub" : {
+            "id": "100074",
+            "explicit_list": "https://github.com/w3c/wpub/tree/master/common/html/ack-script/separate_acks.json",
+            "html_pattern": "https://github.com/w3c/wpub/tree/master/common/html/ack-script/ack_pattern.html"
+        }
+    }
+}

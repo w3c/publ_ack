@@ -1,0 +1,37 @@
+extends: airbnb-base
+rules: # see https://eslint.org/docs/rules/
+    indent:
+        - error
+        - 4
+        - SwitchCase: 1
+          CallExpression:
+            arguments: first
+    no-multi-spaces:
+        - error
+        - exceptions:
+            VariableDeclarator: true
+    no-console: off
+    no-else-return: off
+    camelcase: off
+    strict: off
+    max-len:
+        - error
+        - code: 140
+    key-spacing:
+        - error
+        - align:
+            beforeColon: true
+            afterColon: true
+            on: colon
+    comma-dangle: [error, never]
+    arrow-parens: [error, always]
+    no-plusplus:
+        - error
+        - allowForLoopAfterthoughts: true
+    no-param-reassign:
+        - error
+        - props: false
+    prefer-destructuring: off
+    consistent-return: off # because of Promise callbacks reject() usage
+    no-eval: error
+    no-implied-eval: error
