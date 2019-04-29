@@ -1,4 +1,5 @@
 {
+    "default" : "wpub-local",
     "documents" : {
         "test" : {
             "id": "100074",
