@@ -11,7 +11,11 @@
 },{
     "name" : "Romain Deltour"
 },{
-    "name" : "Hadrien Gardeur"
+    "name" : "Hadrien Gardeur",
+    "affiliation": "Feedbooks"
+},{
+    "name" : "Matt Garrish",
+    "editor": true
 },{
     "name" : "Garth Conboy",
     "chair": true
