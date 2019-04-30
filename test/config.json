@@ -1,5 +1,5 @@
 {
-    "default" : "wpub-local",
+    "default" : "json-ld-syntax-local",
     "documents" : {
         "test" : {
             "id": "100074",
