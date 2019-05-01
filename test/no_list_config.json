@@ -1,0 +1,24 @@
+{
+    "default" : "json-ld-syntax-local",
+    "documents" : {
+        "test" : {
+            "id": "100074",
+            "explicit_list": "http://localhost:8001/LocalData/github/publ_ack/test/test_acks.json",
+            "html_pattern": "http://localhost:8001/LocalData/github/publ_ack/test/test_pattern.html"
+        },
+        "wpub" : {
+            "id": "100074",
+            "explicit_list": "https://raw.githubusercontent.com/w3c/wpub/master/common/html/ack-script/separate_acks.json",
+            "html_pattern": "https://raw.githubusercontent.com/w3c/wpub/master/common/html/ack-script/ack_pattern.html"
+        },
+        "wpub-local" : {
+            "id": "100074",
+            "explicit_list": "http://localhost:8001/LocalData/github/wpub/common/html/ack-script/separate_acks.json",
+            "html_pattern": "http://localhost:8001/LocalData/github/wpub/common/html/ack-script/ack_pattern.html"
+        },
+        "json-ld-syntax-local" : {
+            "id": "107714",
+            "html_pattern": "http://localhost:8001/LocalData/github/json-ld-syntax/ack-script/ack_pattern.html"
+        }
+    }
+}

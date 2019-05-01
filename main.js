@@ -9,12 +9,14 @@ const { create_ack_section } = require('./lib/get_data');
 
 async function main() {
     try {
-        const config       = await get_configuration();
-        const html_section = await create_ack_section(config);
-        if (config.output) {
-            fs.writeFileSync(config.output, html_section);
-        } else {
-            console.log(html_section);
+        const config = await get_configuration();
+        if (config) {
+            const html_section = await create_ack_section(config);
+            if (config.output) {
+                fs.writeFileSync(config.output, html_section);
+            } else {
+                console.log(html_section);
+            }
         }
     } catch (e) {
         console.error(`${e.toString()}`);
