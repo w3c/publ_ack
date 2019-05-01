@@ -18,8 +18,8 @@
         },
         "json-ld-syntax-local" : {
             "id": "107714",
-            "explicit_list": "http://localhost:8001/LocalData/github/json-ld-syntax/common/ack-script/separate_acks.json",
-            "html_pattern": "http://localhost:8001/LocalData/github/json-ld-syntax/common/ack-script/ack_pattern.html"
+            "explicit_list": "http://localhost:8001/LocalData/github/json-ld-syntax/ack-script/separate_acks.json",
+            "html_pattern": "http://localhost:8001/LocalData/github/json-ld-syntax/ack-script/ack_pattern.html"
         }
     }
 }

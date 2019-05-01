@@ -15,6 +15,12 @@
     "affiliation": "Feedbooks"
 },{
     "name" : "Matt Garrish",
+    "editor" : true
+},{
+    "name" : "Ivan Herman",
+    "editor": true
+},{
+    "name" : "Matt Garrish",
     "editor": true
 },{
     "name" : "Garth Conboy",
