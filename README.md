@@ -50,6 +50,7 @@ This list is used to identify users who should be listed separately in the ackno
 * `name` (required): the name of the person. Care should be taken to use _the same name_ as used in the person’s user profile at W3C.
 * `chair` (optional): value is a boolean (it can be omitted for `false`). Designates a (co-)chair for the group; the generated HTML list will explicitly note them as co-chairs.
 * `editor` (optional): value is a boolean (it can be omitted for `false`). Designates the editors of the document; these names will not appear anywhere in the generated lists (the model is that the editor(s) “acknowledges” the co-authors and contributors).
+* `keep` (optional): value is a boolean (it can be omitted for `false`). If a name should appear on _both_ the separate list and the overall list, this value should be set to `true`.
 * `affiliation` (optional): value is a string describing the affiliation of the person. In most of the cases this field is unnecessary; the affiliation data are fetched from the W3C database and added to the final listing. However, if the person appearing on the separate users’ list is on the Working Group not any more, this field should be added.
 
 For an example configuration file, see, e.g., [test users’ list](https://github.com/w3c/publ_ack/blob/master/test/correct_ack_list.json).
