@@ -22,7 +22,7 @@
   "license": "W3C-20150513",
   "dependencies": {
     "commander": "^2.20.0",
-    "node-fetch": "^2.4.1",
+    "node-fetch": "^2.6.1",
     "underscore": "^1.9.1"
   },
   "devDependencies": {
