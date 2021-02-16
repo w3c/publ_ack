@@ -1,19 +1,28 @@
-/** The (necessary) data for a single person */
+/**
+ * Data for a single person
+ */
 export interface Person {
     name?: string;
-    editor?: string;
-    chair?: string;
     affiliation?: string;
-    
-    /** This is an administrative flag if a person has to be removed from a specific list */
+    editor?: boolean;
+    chair?: boolean;
+    staff_contact?: boolean;
+
+    /** This is an administrative flag: signals that a person has to be removed from a specific list eventually */
     remove?: boolean;
 
-    /** for some patterns the people in the separate list are to be listed separately via the HTML template */
+    /**
+     * For some HTML templates the people in the separate list are to be listed separately via the HTML template
+     * A true value means to keep the person in the full list; false or missing value means to remove it from there.
+     * If the editors and chairs are listed separately, then this value is missing (or is false), otherwise set to true. If the formulation
+     * of the HTML template is such that the editors thank the WG members, then their name should not be kept in the final list, so these
+     * values are missing; everyone else's (chair's) is set to true.
+     */
     keep?: boolean;
 }
 
 /**
- * Configuration for a single document, 
+ * Configuration for a single document,
  * as part the configuration files.
  */
 export interface DocumentConfig {
@@ -45,7 +54,7 @@ export interface ConfigFile {
 }
 
 /**
- * Configuration for a single document, 
+ * Configuration for a single document,
  * extracted from the general configuration files.
  */
 export interface DocumentConfigRuntime {

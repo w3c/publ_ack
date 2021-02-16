@@ -2,7 +2,19 @@ import { get_configuration }     from './lib/get_config.ts';
 import { create_ack_section }    from './lib/get_data.ts';
 import { DocumentConfigRuntime } from "./lib/types.ts";
 
-
+/**
+ * Main entry point to publ_ack.
+ *
+ * Options:
+ * ```
+ * -c, --config [config]   JSON configuration file
+ * -d, --document [group]  document identifier
+ * -o, --output [file]     output file name (default: standard output)
+ * -h, --help              output usage information
+ *
+ * file:                   JSON configuration file
+ * ```
+ */
 async function main() {
     try {
         const config: DocumentConfigRuntime = await get_configuration();

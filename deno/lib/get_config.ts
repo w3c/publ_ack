@@ -9,10 +9,10 @@ interface CommandLineConfig {
 
 const user_config_name = '.publ_ack.json';
 
-function print(o: any) { console.log(JSON.stringify(o,null,4)) }
+// function print(o: any) { console.log(JSON.stringify(o,null,4)) }
 
 function get_commands(): CommandLineConfig {
-    const result: CommandLineConfig = {};   
+    const result: CommandLineConfig = {};
 
     const get_flag = (flag: string, option: string): any => {
         let index = Deno.args.findIndex((val) => val ===  `-${flag}`);
@@ -26,18 +26,18 @@ function get_commands(): CommandLineConfig {
         console.log("acks [-c|--config config file] [-d|--document Document id] [-o|--output Output file]")
         Deno.exit(0);
     }
-  
+
     result.config = get_flag('c', 'config');
     result.document = get_flag('d', 'document');
     result.output = get_flag('o', 'output');
-  
+
     // All arguments come in pair; if there is an extra at the end, that is for the config
     if (((Deno.args.length)>>1)<<1 !== Deno.args.length) {
       result.config = Deno.args[Deno.args.length-1];
     }
     return result;
 }
-  
+
 
 /**
  * Get the extended configuration for the main run:
@@ -50,7 +50,7 @@ function get_commands(): CommandLineConfig {
  * * Creates the structure that can be used to collect the data
  *
  * @async
- * @returns {Object} - Final configuration data, see the definition of the data collection
+ * @returns Final configuration data, see the definition of the interface
  */
 export async function get_configuration(): Promise<DocumentConfigRuntime> {
     /**
@@ -114,7 +114,7 @@ export async function get_configuration(): Promise<DocumentConfigRuntime> {
     const program: CommandLineConfig = get_commands();
 
     const file_config: ConfigFile = (program.config !== undefined) ? conf_file(program.config) : {};
-    
+
     // This isn't clean. I did not find a way to do a proper path.join, ie, this may not work on a windows machine...
     const home = Deno.env.get("HOME");
     const user_config: ConfigFile = (home) ? conf_file(`${home}/${user_config_name}`) : {};
@@ -161,7 +161,7 @@ export async function get_configuration(): Promise<DocumentConfigRuntime> {
             }
         } else {
             console.log('ERROR: No group has been identified');
-            return {} as DocumentConfigRuntime;    
+            return {} as DocumentConfigRuntime;
         }
     } else {
         console.log('ERROR: Empty configuration');

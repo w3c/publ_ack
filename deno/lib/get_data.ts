@@ -22,8 +22,8 @@ const apicore    = 'https://api.w3.org';
  *
  * The function relies on the global apikey, necessary for the W3C API call.
  *
- * @param {string} url: the URL that should be used to retrieve data
- * @param {string} key: the W3C API Key to authorize API calls
+ * @param url: the URL that should be used to retrieve data
+ * @param key: the W3C API Key to authorize API calls
  * @returns: a Promise with the json based representation of the fetched data
  *
  */
@@ -39,10 +39,10 @@ async function getData(url: string, key: string): Promise<any> {
 /**
  * Get the data of one user
  *
- * @param {string} user_url: the URL identifying the user in the W3C API system
- * @param {string} key: the W3C API Key to authorize API calls
- * @param {number} num: the number of time this has been called (to avoid an infinite cycle...)
- * @returns: a Promise with an object of the form {name, affiliation}
+ * @param user_url: the URL identifying the user in the W3C API system
+ * @param key: the W3C API Key to authorize API calls
+ * @param num: the number of time this has been called (to avoid an infinite cycle...)
+ * @returns: The Person's name and affiliation (only those are gathered from the W3C database)
  */
 async function getUserData(user_url: string, key: string, num = 1): Promise<Person> {
     let user_info;
@@ -69,13 +69,14 @@ async function getUserData(user_url: string, key: string, num = 1): Promise<Pers
 }
 
 /**
- * Get a list of users.
+ * Get a list of users URL-s into the W3C database.
  *
- * @param {string} group_id: Group identification number
- * @param {string} key: the W3C API Key to authorize API calls
- * @param {boolean} former: whether this should include the former members, too
+ * @param group_id: Group identification number
+ * @param key: the W3C API Key to authorize API calls
+ * @param former: whether this should include the former members, too
+ * @return the list of user URL-s into the W3C database
  */
-async function getUserUrls(group_id: string, key: string, former: boolean): Promise<string[]> {
+async function getUserUrls(group_id: string, key: string, former: boolean = false): Promise<string[]> {
     // Set up the URL-s for the first and the second pages to be retrieved.
     const api_url1 = (former) ? `${apicore}/groups/${group_id}/users?former=true&` : `${apicore}/groups/${group_id}/users?`;
     const api_url2 = `${api_url1}page=2&`;
@@ -149,6 +150,9 @@ function clean_up(separate_acks: Person[], current_members: Person[] /* all_memb
                 if (special.editor) {
                     member.affiliation = `${member.affiliation}, editor`;
                 }
+                if (special.staff_contact) {
+                    member.affiliation = `${member.affiliation}, staff contact`;
+                }
                 special.affiliation = member.affiliation;
 
                 if (!special.keep) {
@@ -185,13 +189,7 @@ function clean_up(separate_acks: Person[], current_members: Person[] /* all_memb
  * - for each user the name and affiliation is gathered
  * - combines the result in an HTML structure
  *
- * The configuration object's relevant fields:
- * * `list` : the array containing the predefined names to be listed explicitly (as Objects)
- * * `template` : HTML template for the final result
- * * `id` : the W3C id for the group
- * * `api_key` : the W3C api key
- *
- * @param {Object} config - Generic configuration
+ * @param config - Generic configuration
  */
 export async function create_ack_section(config: DocumentConfigRuntime): Promise<string> {
     const generate_list = (members: Person[]): string => members
