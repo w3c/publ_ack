@@ -22,7 +22,7 @@
   "license": "W3C-20150513",
   "dependencies": {
     "commander": "^2.20.0",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^3.1.1"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
