@@ -1,6 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 /* eslint-disable no-else-return */
 import { Person, DocumentConfig, ConfigFile, DocumentConfigRuntime, DocumentConfigMap, } from "./types.ts";
+import * as path from "https://deno.land/std/path/mod.ts";
 
 interface CommandLineConfig {
     config?:   string;
@@ -109,10 +110,8 @@ export async function get_configuration(): Promise<DocumentConfigRuntime> {
 
     const file_config: ConfigFile = (program.config !== undefined) ? conf_file(program.config) : {};
 
-    // This isn't clean. I did not find a way to do a proper path.join, ie, this may not work on a windows machine...
     const home = Deno.env.get("HOME");
-    const user_config: ConfigFile = (home) ? conf_file(`${home}/${user_config_name}`) : {};
-
+    const user_config: ConfigFile = (home) ? conf_file(path.join(home, user_config_name)) : {};
 
     const final_documents: DocumentConfigMap  = { ...user_config.documents, ...file_config.documents };
     const final_config: ConfigFile = { ...user_config, ...file_config };
