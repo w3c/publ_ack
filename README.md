@@ -14,10 +14,10 @@ The content of the HTML fragment can be personalized via a simple template file.
 
 ## Usage
 
-The tool is written in Javascript on top of `node.js`. The “entry point” is the `main.js` file, which accepts the following command line arguments:
+The tool is written in Typescript on top of [deno](https://deno.com). The “entry point” is the `main.ts` file, which accepts the following command line arguments:
 
 ```bash
-Usage: node main.js [options] [file]
+Usage: deno run -A main.ts [options] [file]
 
 Options:
   -c, --config [config]   JSON configuration file
@@ -34,7 +34,6 @@ The configuration file is at the heart of processing, and controls the various o
 
 The file may contain the following fields:
 
-* `api_key` (required): value is the API key that is necessary to use the W3C API. See the [relevant W3C page](https://w3c.github.io/w3c-api/) for obtaining it. (Beware! Avoid putting a configuration file on a public archive with this value included. The safest way is to store this value in `~/.publ_ack.json`.)
 * `default` (optional): the default document identifier (overwritten by the command line argument `-d`).
 * `documents` (required): the value is an object; keys in this object are the document identifiers, each identifying an object with the following fields:
   * `id` (required): group ID. Ask your friendly W3C staff contact to provide you with the value for a specific group, but it is also part of the URL for the group’s participation list. See, for example, the URL for the [JSON-LD WG participants’ list](https://www.w3.org/2000/09/dbwg/details?group=100074).
@@ -66,13 +65,7 @@ For an example template file, see, e.g., [test html template](https://github.com
 
 ## Installation
 
-Setup the project locally and install `node.js` dependencies:
-
-```bash
-git clone https://github.com/w3c/publ_ack.git
-cd publ_ack
-npm install
-```
+See the [deno homepage](https://deno.com) to download deno (version 1.37.2 or higher is required). 
 
 ---
 

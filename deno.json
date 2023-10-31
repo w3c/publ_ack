@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "main": "deno run --allow-net --allow-env=HOME --allow-read main.ts",
+    "compile": "deno compile --allow-net --allow-env=HOME --allow-read main.ts",
+    "t1": "deno run --allow-net --allow-env=HOME --allow-read main.ts -d epub33-with-dedication",
+    "t2": "deno run --allow-net --allow-env=HOME --allow-read main.ts -d epub33-without-dedication"
+  }
+}

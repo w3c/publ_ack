@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 /* eslint-disable no-underscore-dangle */
 /**
  *
@@ -27,8 +28,9 @@ const apicore    = 'https://api.w3.org';
  * @returns: a Promise with the json based representation of the fetched data
  *
  */
-async function getData(url: string, key: string): Promise<any> {
-    const response =  await fetch(`${url}apikey=${key}`);
+async function getData(url: string): Promise<any> {
+    // const response = key === undefined ? await fetch(`${url}`) : await fetch(`${url}?apikey=${key}`);
+    const response = await fetch(`${url}`);
     if (response.ok) {
         return response.json();
     } else {
@@ -44,16 +46,16 @@ async function getData(url: string, key: string): Promise<any> {
  * @param num: the number of time this has been called (to avoid an infinite cycle...)
  * @returns: The Person's name and affiliation (only those are gathered from the W3C database)
  */
-async function getUserData(user_url: string, key: string, num = 1): Promise<Person> {
+async function getUserData(user_url: string, num = 1): Promise<Person> {
     let user_info;
     let affiliation_info;
     try {
         // The user name and affiliation must be retrieved separately in the W3C API
-        user_info = await getData(`${user_url}?`, key);
-        affiliation_info = await getData(`${user_info._links.affiliations.href}?`, key);
+        user_info = await getData(`${user_url}`);
+        affiliation_info = await getData(`${user_info._links.affiliations.href}`);
         const affiliations = affiliation_info._links.affiliations;
         return {
-            name        : user_info.name,
+            name        : user_info.name as string,
             affiliation : (affiliations) ? affiliations[0].title : 'No affiliation'
         };
     } catch (err) {
@@ -62,7 +64,7 @@ async function getUserData(user_url: string, key: string, num = 1): Promise<Pers
             return { name: undefined, affiliation: undefined };
         } else {
             console.error(`Attempt no. ${num} to user data at ${user_url} (${err.message}) failed, trying again`);
-            const try_again = await getUserData(user_url, key, num + 1);
+            const try_again = await getUserData(user_url, num + 1);
             return try_again;
         }
     }
@@ -76,13 +78,13 @@ async function getUserData(user_url: string, key: string, num = 1): Promise<Pers
  * @param former: whether this should include the former members, too
  * @return the list of user URL-s into the W3C database
  */
-async function getUserUrls(group_id: string, key: string, former: boolean = false): Promise<string[]> {
+async function getUserUrls(group_id: string, former = false): Promise<string[]> {
     // Set up the URL-s for the first and the second pages to be retrieved.
     const api_url1 = (former) ? `${apicore}/groups/${group_id}/users?former=true&` : `${apicore}/groups/${group_id}/users?`;
-    const api_url2 = `${api_url1}page=2&`;
+    const api_url2 = `${api_url1}page=2`;
 
     // Get the data. To speed up, spawn two requests and run them in parallel
-    const [user_infos1, user_infos2] = await Promise.all([getData(api_url1, key), getData(api_url2, key)]);
+    const [user_infos1, user_infos2] = await Promise.all([getData(api_url1), getData(api_url2)]);
 
     // Extract the URL-s identifying each user. The result is an array of URL-s
     let user_urls = user_infos1._links.users.map((info: any): string => info.href);
@@ -161,7 +163,7 @@ function clean_up(separate_acks: Person[], current_members: Person[] /* all_memb
             }
             return member;
         })
-        .filter((member: Person): Boolean => member.remove === undefined);
+        .filter((member: Person) => member.remove === undefined);
 
 
     // Basic cleanup of the lists
@@ -206,7 +208,7 @@ export async function create_ack_section(config: DocumentConfigRuntime): Promise
         //     getUsers(config.id, config.api_key, former = false),
         //     getUsers(config.id, config.api_key, former = true)
         // ]);
-        const current_user_urls: string[] = await getUserUrls(config.id, config.api_key, false);
+        const current_user_urls: string[] = await getUserUrls(config.id, false);
 
         // Get hold of all the names and affiliations.
         // const [current_user_data, all_user_data] = await Promise.all([
@@ -214,7 +216,7 @@ export async function create_ack_section(config: DocumentConfigRuntime): Promise
         //         await Promise.all(all_user_urls.map((user) => getUserData(user, key)))
         //     ]);
 
-        const current_user_data: Person[] = await Promise.all(current_user_urls.map((user: string): Promise<Person> => getUserData(user, config.api_key)));
+        const current_user_data: Person[] = await Promise.all(current_user_urls.map((user: string): Promise<Person> => getUserData(user)));
 
         // const [final_separate_acks, final_current, final_past] = clean_up(separate_acks, current_user_data, all_user_data);
         const [final_separate_acks, final_current] = clean_up(separate_acks, current_user_data);

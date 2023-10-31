@@ -1,5 +1,6 @@
+// deno-lint-ignore-file no-explicit-any
 /* eslint-disable no-else-return */
-import { Person, DocumentConfig, ConfigFile, DocumentConfigRuntime, DocumentConfigMap } from "./types.ts";
+import { Person, DocumentConfig, ConfigFile, DocumentConfigRuntime, DocumentConfigMap, } from "./types.ts";
 
 interface CommandLineConfig {
     config?:   string;
@@ -9,12 +10,10 @@ interface CommandLineConfig {
 
 const user_config_name = '.publ_ack.json';
 
-// function print(o: any) { console.log(JSON.stringify(o,null,4)) }
-
 function get_commands(): CommandLineConfig {
     const result: CommandLineConfig = {};
 
-    const get_flag = (flag: string, option: string): any => {
+    const get_flag = (flag: string, option: string): string|undefined => {
         let index = Deno.args.findIndex((val) => val ===  `-${flag}`);
         if (index === -1) {
             index = Deno.args.findIndex((val) => val ===  `--${option}`);
@@ -61,7 +60,7 @@ export async function get_configuration(): Promise<DocumentConfigRuntime> {
     * @param {boolean} json - whether the return value is supposed to be JSON
     * @returns {object} - either the parsed JSON content, or a text
     */
-    const get_file = async (url: string, json: boolean = true): Promise<any> => {
+    const get_file = async (url: string, json = true): Promise<any> => {
         const response =  await fetch(url);
         if (response.ok) {
             return (json) ? response.json() : response.text();
@@ -74,24 +73,19 @@ export async function get_configuration(): Promise<DocumentConfigRuntime> {
     * Read a configuration file
     *
     * @param {string} file_name - file name
-    * @param {boolean} warn - whether warn for a non-existent file
     * @returns {object} - the parsed JSON content
     */
-    const conf_file = (file_name: string, warn: boolean = true): any => {
+    const conf_file = (file_name: string): ConfigFile => {
         try {
             const file_c = Deno.readTextFileSync(file_name);
-            return JSON.parse(file_c);
+            return JSON.parse(file_c) as ConfigFile;
         } catch (e) {
-            if (warn) console.error(`ERROR: Could not find or configuration file: ${file_name}! \n    (${e})`);
-            return {};
+            throw new Error(`ERROR: Could not find or configuration file: ${file_name}! \n    (${e})`);
         }
     };
 
     const check_final_config = (config: ConfigFile, group: string): boolean => {
-        if (!('api_key' in config)) {
-            console.log('ERROR: W3C API key is missing');
-            return false;
-        } else if (!config.documents) {
+        if (!config.documents) {
             console.log('ERROR: no references to documents');
             return false;
         } else if (!group) {
@@ -143,17 +137,18 @@ export async function get_configuration(): Promise<DocumentConfigRuntime> {
                 // the explicit list is not required, so it must be checked before trying to read it...
                 if (document_config.explicit_list) {
                     const promises: Promise<any>[] = [get_file(document_config.explicit_list, true), get_file(document_config.html_pattern, false)];
-                    [list, template] = await Promise.all(promises);
+                    const [list_raw, template_raw] = await Promise.all(promises);
+                    list = list_raw as Person[];
+                    template = template_raw as string;
                     // Retain only the persons with a name
                     list = list.filter((person: Person): boolean => person.name !== undefined);
                 } else {
                     list = [];
-                    template = await get_file(document_config.html_pattern, false);
+                    template = await get_file(document_config.html_pattern, false) as string;
                 }
 
                 return {
                     id       : document_config.id,
-                    api_key  : final_config.api_key,
                     output   : program.output,
                     list     : list,
                     template : template
