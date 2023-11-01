@@ -10,9 +10,9 @@ import { DocumentConfigRuntime } from "./lib/types.ts";
  * -c, --config [config]   JSON configuration file
  * -d, --document [group]  document identifier
  * -o, --output [file]     output file name (default: standard output)
- * -h, --help              output usage information
+ * -h, --help              display help for command
  *
- * file:                   JSON configuration file
+ * config:                 JSON configuration file
  * ```
  */
 async function main() {

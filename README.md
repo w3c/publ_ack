@@ -17,15 +17,15 @@ The content of the HTML fragment can be personalized via a simple template file.
 The tool is written in Typescript on top of [deno](https://deno.com). The “entry point” is the `main.ts` file, which accepts the following command line arguments:
 
 ```bash
-Usage: deno run -A main.ts [options] [file]
+Usage: deno run -A main.ts [options] [conf]
 
 Options:
   -c, --config [config]   JSON configuration file
   -d, --document [group]  document identifier
-  -o, --output [file]     output file name (default: standard output)
-  -h, --help              output usage information
+  -o, --output [output]   output file name (default: standard output)
+  -h, --help              display help for command
 
-  file:                   JSON configuration file
+  config:                 JSON configuration file
 ```
 
 The configuration file is at the heart of processing, and controls the various options; it is a local JSON file. A user level configuration file `~/.publ_ack.json` can also be used; this is combined with the configuration file provided on the command line. The document name is a key identifying the specific document parameters, listed in the configuration file (see below).

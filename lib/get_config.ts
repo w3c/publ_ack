@@ -1,7 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
 /* eslint-disable no-else-return */
-import { Person, DocumentConfig, ConfigFile, DocumentConfigRuntime, DocumentConfigMap, } from "./types.ts";
-import * as path from "https://deno.land/std/path/mod.ts";
+import { Person, DocumentConfig, ConfigFile, DocumentConfigRuntime, DocumentConfigMap } from "./types.ts";
+import * as path    from "https://deno.land/std/path/mod.ts";
+import { Command }  from 'npm:commander';
+
 
 interface CommandLineConfig {
     config?:   string;
@@ -11,30 +13,33 @@ interface CommandLineConfig {
 
 const user_config_name = '.publ_ack.json';
 
+/**
+ * Handle command line arguments
+ * 
+ * @returns Command line arguments
+ */
 function get_commands(): CommandLineConfig {
     const result: CommandLineConfig = {};
-
-    const get_flag = (flag: string, option: string): string|undefined => {
-        let index = Deno.args.findIndex((val) => val ===  `-${flag}`);
-        if (index === -1) {
-            index = Deno.args.findIndex((val) => val ===  `--${option}`);
-        }
-        return (index === -1 || index === Deno.args.length - 1) ? undefined : Deno.args[index + 1];
-    }
-
-    if (Deno.args.length === 0 || Deno.args[0] === '-h' || Deno.args[0] === '--help') {
-        console.log("acks [-c|--config config file] [-d|--document Document id] [-o|--output Output file]")
-        Deno.exit(0);
-    }
-
-    result.config = get_flag('c', 'config');
-    result.document = get_flag('d', 'document');
-    result.output = get_flag('o', 'output');
-
-    // All arguments come in pair; if there is an extra at the end, that is for the config
-    if (((Deno.args.length)>>1)<<1 !== Deno.args.length) {
-      result.config = Deno.args[Deno.args.length-1];
-    }
+    const program = new Command();
+    program
+        .name('publ_ack')
+        .description('Generate the acknowledgement section for W3C documents.')
+        .version('2.0.0', '-v --version', 'Output program version')
+        .usage('[options] [config]')
+        .argument('[config]', "JSON Configuration file (overwrites option)")
+        .option('-c --config [config]', "JSON Configuration file")
+        .option('-d --document [document]', "document identifier")
+        .option('-o --output [output]', "output file name (default: standard output)")
+        .action((config, options) => {
+            result.config = options.config;
+            result.document = options.document;
+            result.output = options.output;
+            if (config) {
+                result.config = config;
+            }      
+        })
+        // This is just mimic the process.argv that is used for node.js
+        .parse(["", "", ...Deno.args]);
     return result;
 }
 
