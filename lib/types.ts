@@ -1,11 +1,13 @@
+
+
 /**
  * Data for a single person
  */
 export interface Person {
-    name?: string;
-    affiliation?: string;
-    editor?: boolean;
-    chair?: boolean;
+    name?:          string;
+    affiliation?:   string;
+    editor?:        boolean;
+    chair?:         boolean;
     staff_contact?: boolean;
 
     /** This is an administrative flag: signals that a person has to be removed from a specific list eventually */
@@ -43,14 +45,11 @@ export interface DocumentConfigMap {
 
 /** The structure of the configuration files */
 export interface ConfigFile {
-    /** API key, to be used with the W3C API calls */
-    api_key: string;
-
     /** Just of the lazy user who does not want to type the document name... */
     default?: DocumentConfig;
 
     /** The list of document configurations, indexed by a document name */
-    documents: DocumentConfigMap;
+    documents?: DocumentConfigMap;
 }
 
 /**
@@ -60,9 +59,6 @@ export interface ConfigFile {
 export interface DocumentConfigRuntime {
     /** This is the group ID, used as part of the api calls */
     id: string;
-
-    /** API key, to be used with the W3C API calls */
-    api_key: string;
 
     /** Reference to the output file (if not there, standard output is used) */
     output?: string;
