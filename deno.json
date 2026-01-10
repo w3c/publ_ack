@@ -2,8 +2,9 @@
   "tasks": {
     "main":    "deno run --allow-net --allow-env=HOME --allow-read main.ts",
     "compile": "deno compile --allow-net --allow-env=HOME --allow-read main.ts",
-    "t1":      "deno run --allow-net --allow-env=HOME --allow-read main.ts -d epub33-with-dedication",
-    "t2":      "deno run --allow-net --allow-env=HOME --allow-read main.ts -d epub33-without-dedication",
-    "bintest": "publ_ack -d epub33-with-dedication" 
+    "t1":      "deno run --allow-net --allow-env=HOME --allow-read main.ts -d epub34-with-dedication",
+    "t2":      "deno run --allow-net --allow-env=HOME --allow-read main.ts -d epub34-without-dedication",
+    "epub":    "publ_ack -d epub34 > /Users/ivan/W3C/github/EPUB/epub-specs/epub34/acknowledgements.html",
+    "bintest": "publ_ack -d epub34-with-dedication"
   }
 }
